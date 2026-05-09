@@ -7,10 +7,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BsArrowRight } from 'react-icons/bs';
 
+export const generateMetadata = async ({ params }) => {
+    const {id} = await params;
+    // console.log(paramRes);
+    const news = await getNewsDetailsById(id);
+    return{
+        title: news.title,
+        description: news.details
+    }
+}
+
 const NewsDetailsPage = async ({ params }) => {
     const { id } = await params;
     const news = await getNewsDetailsById(id);
-    console.log(news);
+    // console.log(news);
     return (
         <div className='max-w-4xl mx-auto my-8'>
             <div className="card bg-base-100 shadow-sm">
@@ -34,7 +44,7 @@ const NewsDetailsPage = async ({ params }) => {
                     <h2 className="card-title">{news.title}</h2>
                     <Image src={news.image_url} height={300} width={300} alt={news.title} className='w-full'></Image>
                     <div>
-                        <p className='line-clamp-3'>{news.details}</p>
+                        <p className=''>{news.details}</p>
                     </div>
                     <div className="card-actions justify-between items-center">
                         <div className='flex justify-between items-center gap-4'>
@@ -48,7 +58,7 @@ const NewsDetailsPage = async ({ params }) => {
                             </div>
                         </div>
                         <Link href={`/category/${news.category_id}`}>
-                            <button className="btn btn-error text-white">Read More News From This Category <BsArrowRight/> </button>
+                            <button className="btn btn-error text-white">Read More News From This Category <BsArrowRight /> </button>
                         </Link>
                     </div>
                 </div>
